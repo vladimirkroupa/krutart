@@ -1,0 +1,7 @@
+tricks:
+- watchdog.tricks.ShellCommandTrick:
+    patterns: ["*.mp4"]
+    shell_command: "./entrypoint.py ${watch_event_type} ${watch_object} ${watch_src_path}"
+    ignore_directories: true
+    wait_for_process: false
+
