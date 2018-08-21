@@ -12,15 +12,16 @@ def rreplace(s, old, new, occurrence):
 
 def call_command(command_list):
     try:
+        logging.info("Running command %s" % command_list)
         output = subprocess.check_output(command_list)
         output = rreplace(output, '\n', '', 1)
         logging.info("AE has finished: '%s'" % output)
         return True
     except subprocess.CalledProcessError as e:
         logging.error("AE exited with an error status code: '%s'" % e)
+        return False
     except OSError as e:
         logging.error("Error calling AE: '%s'" % e)
-    finally:
         return False
 
 def remove_file(path):
@@ -31,7 +32,7 @@ def remove_file(path):
         logging.error("Could not delete file '%s': '%s'" % (path, e))
 
 def on_created(src_path):
-    success = call_command(['false', '||' 'echo OK'])
+    success = call_command(['./run-ae.sh'])
     if success:
         remove_file(src_path)
 
